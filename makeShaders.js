@@ -72,4 +72,30 @@ So here we have.... tsk. Go read a tutorial, i know stuff, but not well enough t
         gl.enableVertexAttribArray(pwgl.vertexPositionAttributeLoc);
         gl.enableVertexAttribArray(pwgl.vertexTextureAttributeLoc);
 
+        modelViewMatrix = mat4.create();
+        projectionMatrix = mat4.create();
+        modelViewMatrixStack = [];
+
+    }
+
+    //Utility functions -----------------------------------------------
+    function uploadModelViewMatrixToShader() {
+      gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, modelViewMatrix);
+    }
+
+    function uploadProjectionMatrixToShader() {
+      gl.uniformMatrix4fv(shaderProgram.pMatrixUniform,
+                          false, projectionMatrix);
+    }
+
+    function pushModelViewMatrix() {
+      var copyToPush = mat4.create(modelViewMatrix);
+      modelViewMatrixStack.push(copyToPush);    //made in setupShaders
+    }
+
+    function popModelViewMatrix() {
+      if (modelViewMatrixStack.length == 0) {
+        throw "Error popModelViewMatrix() - Stack was empty ";
+      }
+      modelViewMatrix = modelViewMatrixStack.pop();
     }
