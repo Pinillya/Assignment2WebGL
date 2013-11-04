@@ -1,0 +1,109 @@
+<!-- 
+
+Welcome to this wonderfull webGLworld of Illy Binfield!
+This is a small experiment made for an assignment, in my mobile system class.
+its not fantastic but it has tought me a lot. 
+
+This is based a lot on tuts found at: http://learningwebgl.com/blog/
+And on my teachers lessons/ script examples. 
+Though!! I have smacked it all together all by my lonesom, and made my own aditions. 
+
+Alright, so lets take the tour. I will try to comment a bit, but as this
+is so basic, I'm not gonna go to any extreems.  
+
+-->
+
+
+<html>
+
+<head>
+<title>Mobile Systemer H2013</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<!-- Standard -->
+<script type="text/javascript" src="extras/glMatrix-0.9.5.min.js"></script>
+<script type="text/javascript" src="extras/webgl-utils.js"></script>
+<script type="text/javascript" src="extras/webgl-debug.js"></script>
+
+<!-- Make the content hadlers! -->
+<script type="text/javascript" src="makeShaders.js"></script>
+<script type="text/javascript" src="makeMatrix.js"></script>
+<!-- This is the thing that makes everything. The MAIN document if you will -->
+<script type="text/javascript" src="makeGL.js"></script>
+
+<!-- 
+Here we have a few different objects to chose between. For further description about the different objects, have a look at the code lazy person. 
+ -->
+<script type="text/javascript" src="makeElementBox.js"></script>
+<script type="text/javascript" src="makePyramideObjects.js"></script>
+<script type="text/javascript" src="makePlaneObjects.js"></script>
+<script type="text/javascript" src="makeCubeObjects.js"></script>
+<script type="text/javascript" src="makeCoordinationObject.js"></script>
+
+
+<!-- Some shaders were hard to move into their document, so here they are... at least until I understand them more-->
+<script id="shader-fs" type="x-shader/x-fragment">
+    precision mediump float;
+
+    //varying vec4 vColor;
+    varying vec2 vTextureCoordinates;
+    uniform sampler2D uSampler;
+
+    void main(void) {
+        gl_FragColor = texture2D(uSampler, vTextureCoordinates);
+        //gl_FragColor = vColor;
+    }
+</script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+    attribute vec3 aVertexPosition;
+    //attribute vec4 aVertexColor;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    attribute vec2 aTextureCoordinates;
+    varying vec2 vTextureCoordinates;
+
+    varying vec4 vColor;
+
+    void main(void) {
+        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+        //vColor = aVertexColor;
+        vTextureCoordinates = aTextureCoordinates;
+    }
+</script>
+
+<!-- Animate doesnt work so well when in its own document, so I have it here. As with the shaders; until I understand things a bit more.  -->
+<script type="text/javascript">
+
+    //This turns degrees into radius. Its easier that way.
+    function degToRad(degrees) {
+        return degrees * Math.PI / 180;
+    }
+
+    //Animation pr frame is handled in another function inside "makeGL" What we have here, is us changing the rPyramide and rBox variables based on the current time. We do this so that even if the screen lags, the action that would happen during the time the action was happening, will happen. 
+    var lastTime = 0;
+    //var movingBoxes = 7;
+    //var rBox = 3;
+    function animate() {
+        var timeNow = new Date().getTime();
+        if (lastTime != 0) {
+          var elapsed = timeNow - lastTime;
+
+          rBox += (90 * elapsed) / 1000.0;
+          for (var i=0; i< 10; i++){
+            movingBoxes[i] -= 0.01;
+          }
+        }
+        lastTime = timeNow;
+    }
+
+</script>
+
+<!-- Finally the HTML part -->
+</head>
+<body onload="webGLStart();" bgcolor="#00000">
+    <canvas id="illy-canvas" style="border: none;" width="800" height="500"></canvas>
+    life
+</body>
+</html>
