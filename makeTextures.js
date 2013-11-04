@@ -1,36 +1,35 @@
-
   //------------------Textures------------------------
   function setupTextures () {
 
       pwgl.waterAni1= gl.createTexture();
-      loadImageForTexture("tileWater0.png", pwgl.waterAni1);
+      loadImageForTexture("textures/tileWater0.png", pwgl.waterAni1);
       
       pwgl.waterAni2= gl.createTexture();
-      loadImageForTexture("tileWater1.png", pwgl.waterAni2);
+      loadImageForTexture("textures/tileWater1.png", pwgl.waterAni2);
       
       pwgl.waterAni3= gl.createTexture();
-      loadImageForTexture("tileWater2.png", pwgl.waterAni3);
+      loadImageForTexture("textures/tileWater2.png", pwgl.waterAni3);
       
       pwgl.waterAni4= gl.createTexture();
-      loadImageForTexture("tileWater3.png", pwgl.waterAni4);
+      loadImageForTexture("textures/tileWater3.png", pwgl.waterAni4);
 
       pwgl.stare = gl.createTexture();
-      loadImageForTexture("stare.png", pwgl.stare);
+      loadImageForTexture("textures/stare.png", pwgl.stare);
 
       pwgl.basket = gl.createTexture();
-      loadImageForTexture("Stone2.png", pwgl.basket);
+      loadImageForTexture("textures/Stone2.png", pwgl.basket);
 
        pwgl.water = gl.createTexture();
-      loadImageForTexture("tileWater.png", pwgl.water);
+      loadImageForTexture("textures/tileWater.png", pwgl.water);
 
       pwgl.character = gl.createTexture();
-      loadImageForTexture("character.png", pwgl.character);
+      loadImageForTexture("textures/character.png", pwgl.character);
 
       pwgl.enemie = gl.createTexture();
-      loadImageForTexture("enemie.png", pwgl.enemie);
+      loadImageForTexture("textures/enemie.png", pwgl.enemie);
   }
 
-
+  pwgl.ongoingImageLoads = [];
   function loadImageForTexture (url, texture) {
       var image = new Image();
       image.onload = function() {

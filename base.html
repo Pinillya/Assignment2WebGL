@@ -28,36 +28,31 @@ is so basic, I'm not gonna go to any extreems.
 <!-- Make the content hadlers! -->
 <script type="text/javascript" src="makeShaders.js"></script>
 <script type="text/javascript" src="makeMatrix.js"></script>
-<script type="text/javascript" src="makeTextures.js"></script>
-<script type="text/javascript" src="makeMovement.js"></script>
-<script type="text/javascript" src="contextLost.js"></script>
 <!-- This is the thing that makes everything. The MAIN document if you will -->
 <script type="text/javascript" src="makeGL.js"></script>
+<script type="text/javascript" src="makeTextures.js"></script>
 
 <!-- 
 Here we have a few different objects to chose between. For further description about the different objects, have a look at the code lazy person. 
  -->
-<script type="text/javascript" src="makeElementBox.js"></script>
-<script type="text/javascript" src="makePyramideObjects.js"></script>
 <script type="text/javascript" src="makePlaneObjects.js"></script>
 <script type="text/javascript" src="makeCubeObjects.js"></script>
-<script type="text/javascript" src="makeCoordinationObject.js"></script>
-<script type="text/javascript" src="makeMovingObjects.js"></script>
-
-<script type="text/javascript" src="phrasingObjFile.js"></script>
-<script type="text/javascript" src="objmeshloader.js"></script>
 
 
 <!-- Some shaders were hard to move into their document, so here they are... at least until I understand them more-->
+
+
+<!-- Shader1-->
 <script id="shader-fs" type="x-shader/x-fragment">
     precision mediump float;
 
+    varying vec4 vColor;
     varying vec2 vTextureCoordinates;
     uniform sampler2D uSampler;
 
-    void main(void) 
-    {
+    void main(void) {
         gl_FragColor = texture2D(uSampler, vTextureCoordinates);
+        //gl_FragColor = vColor;
     }
 </script>
 
@@ -74,8 +69,33 @@ Here we have a few different objects to chose between. For further description a
 
     void main(void) {
         gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+        vColor = vec4(aVertexPosition.xyz / 2.0 + 0.5, 1.0);
         vTextureCoordinates = aTextureCoordinates;
     }
+</script>
+
+<!-- Shader2-->
+<script id="shader-vs2" type="x-shader/x-vertex">
+  attribute vec3 aVertexPosition;
+  attribute vec4 aVertexColor;
+  
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+  varying vec4 vColor;
+  
+  void main() {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+  aVertexColor;
+    vColor = vec4(aVertexPosition.xyz / 2.0 + 0.5, 1.0);
+  }  
+</script>
+
+<script id="shader-fs2" type="x-shader/x-fragment">
+  precision mediump float;
+  varying vec4 vColor;
+  void main() {
+    gl_FragColor = vColor;   
+  } 
 </script>
 
 <!-- Animate doesnt work so well when in its own document, so I have it here. As with the shaders; until I understand things a bit more.  -->
@@ -88,9 +108,6 @@ Here we have a few different objects to chose between. For further description a
 
     //Animation pr frame is handled in another function inside "makeGL" What we have here, is us changing the rPyramide and rBox variables based on the current time. We do this so that even if the screen lags, the action that would happen during the time the action was happening, will happen. 
     var lastTime = 0;
-    //var movingBoxes = 7;
-    //var rBox = 3;
-    var enemieSpeed = 0.01;
     function animate() {
         var timeNow = new Date().getTime();
         if (lastTime != 0) {
@@ -104,6 +121,29 @@ Here we have a few different objects to chose between. For further description a
         lastTime = timeNow;
     }
 
+</script>
+
+<script id="monkey3" type="text/obj">
+# Blender v2.68 (sub 0) OBJ File: ''
+# www.blender.org
+mtllib box.mtl
+o Cube
+v 1.000000 -1.000000 -1.000000
+v 1.000000 -1.000000 1.000000
+v -1.000000 -1.000000 1.000000
+v -1.000000 -1.000000 -1.000000
+v 1.000000 1.000000 -0.999999
+v 0.999999 1.000000 1.000001
+v -1.000000 1.000000 1.000000
+v -1.000000 1.000000 -1.000000
+usemtl Material
+s off
+f 1 2 3 4
+f 5 8 7 6
+f 1 5 6 2
+f 2 6 7 3
+f 3 7 8 4
+f 5 1 4 8
 </script>
 
 <!-- Finally the HTML part -->

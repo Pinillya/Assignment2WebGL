@@ -51,6 +51,19 @@ makes us able to shape it as we wish. (with doors and stuff)
         planePositionBuffer.itemSize = 3;
         planePositionBuffer.numItems = 4;
 
+       /* //Adding the colors based on the values given when we called the function
+        planeColorBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, planeColorBuffer);
+        var colors = [
+            R, G, B, A,
+            R, G, B, A,
+            R, G, B, A,
+            R, G, B, A
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+        planeColorBuffer.itemSize = 4;
+        planeColorBuffer.numItems = 4;*/
+
 //Texture
         pwgl.planeTextureBufferCoordinationBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, pwgl.planeTextureBufferCoordinationBuffer);
@@ -100,10 +113,17 @@ makes us able to shape it as we wish. (with doors and stuff)
         gl.bindBuffer(gl.ARRAY_BUFFER, planePositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, planePositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
+        //gl.bindBuffer(gl.ARRAY_BUFFER, planeColorBuffer);
+        //gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, planeColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+
+
+
         gl.bindBuffer(gl.ARRAY_BUFFER, pwgl.planeTextureBufferCoordinationBuffer);
         gl.vertexAttribPointer(pwgl.vertexTextureAttributeLoc, pwgl.PLANE_VERTEX_TEX_COORD_BUF_ITEM_SIZE, gl.FLOAT, false, 0, 0);
         gl.bindTexture(gl.TEXTURE_2D, textureChoice);
-        
+        //gl.drawArrays(gl.TRIANGLES, 0, pwgl.PLANE_VERTEX_TEX_COORD_BUF_NUM_ITEMS);
+
         setMatrixUniforms();
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, planePositionBuffer.numItems);
 

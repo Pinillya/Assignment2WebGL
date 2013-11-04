@@ -111,6 +111,7 @@
         mvPushMatrix();
 
         mat4.translate(mvMatrix, [transX, transY, transZ]);
+        //mat4.translate(mvMatrix, [position[0], cubePosition[1], cubePosition[2]]);
         
         mat4.rotate(mvMatrix, 8, [0, 1, 0]);
         mat4.rotate(mvMatrix, rBox, [rotX, rotY, rotZ]); 
